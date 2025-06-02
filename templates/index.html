@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night House | Космическое сообщество</title>
+    <link rel="icon" href="static/ico.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wght@100;300;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --accent: #5865F2;
+            --accent-light: #7983f5;
+            --bloom-color: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            font-family: 'Arial', sans-serif;
+            font-weight: 300;
+            color: white;
+        }
+
+        .glow {
+            position: fixed;
+            left: -25vw;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, 
+                rgba(255,255,255,0.15) 0%, 
+                rgba(255,255,255,0.08) 30%,
+                rgba(255,255,255,0.03) 50%,
+                rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(30px);
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 800px;
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .credits {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(3px);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .credits:hover {
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 100;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        .description {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            max-width: 600px;
+            opacity: 0.9;
+        }
+
+        .info-block {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-light);
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.4);
+        }
+
+        .btn:hover {
+            background: var(--accent-light);
+            box-shadow: 0 0 25px rgba(88, 101, 242, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn i {
+            margin-right: 0.6rem;
+            font-size: 1.2rem;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            transition: transform 0.3s ease-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        .creators-window {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .creator-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            background: rgba(30, 30, 45, 0.7);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .creator-btn:hover {
+            background: rgba(40, 40, 60, 0.8);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+        }
+
+        .creator-btn i {
+            margin-right: 0.6rem;
+            font-size: 1.2rem;
+            color: var(--bloom-color);
+            filter: drop-shadow(0 0 6px var(--bloom-color));
+            transition: all 0.3s ease;
+        }
+
+        .creator-btn:hover i {
+            filter: drop-shadow(0 0 12px var(--bloom-color));
+        }
+
+        .discord-btn-container {
+            margin-top: 2rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .music-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .music-btn i {
+            filter: drop-shadow(0 0 4px var(--bloom-color));
+        }
+
+        .volume-control {
+            width: 100px;
+            -webkit-appearance: none;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            outline: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-controls:hover .volume-control {
+            opacity: 1;
+        }
+
+        .volume-control::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            filter: drop-shadow(0 0 2px var(--bloom-color));
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+                letter-spacing: 0.2em;
+            }
+            
+            .btn, .creator-btn {
+                padding: 0.7rem 1.5rem;
+            }
+
+            .creators-window {
+                padding: 1rem;
+            }
+
+            .music-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .credits {
+                font-size: 0.8rem;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="glow"></div>
+    
+    <div class="content">
+        <h1 class="logo">Night House</h1>
+        
+        <p class="description">
+            Комьюнити игроков!<br>
+            Присоединяйтесь к нашему Discord-сообществу.
+        </p>
+        
+        <div class="creators-window">
+            <h2 class="info-title">Каналы создателей</h2>
+            
+            <a href="https://www.youtube.com/@sh1ckonly" class="creator-btn" target="_blank">
+                <i class="fab fa-youtube"></i> Шик (YouTube)
+            </a>
+            
+            <a href="https://t.me/bontixxx" class="creator-btn" target="_blank">
+                <i class="fab fa-telegram"></i> Bontix (Telegram)
+            </a>
+            
+            <a href="https://t.me/dbgcore" class="creator-btn" target="_blank">
+                <i class="fab fa-telegram"></i> dbgcore (Telegram)
+            </a>
+        </div>
+
+        <div class="discord-btn-container">
+            <a href="https://discord.gg/2sC4aHwFnp" class="btn" target="_blank">
+                <i class="fab fa-discord"></i> Присоединиться
+            </a>
+        </div>
+    </div>
+
+    <a href="" class="credits" target="_blank">
+        было сделано dbgcore.dll
+    </a>
+
+    <div class="music-controls">
+        <input type="range" class="volume-control" min="0" max="1" step="0.01" value="0.3">
+        <button class="music-btn" id="playBtn">
+            <i class="fas fa-pause"></i>
+        </button>
+    </div>
+
+    <audio id="bgMusic" loop autoplay>
+        <source src="https://storage6.lightaudio.ru/dm/39922ed2/50e288ba/Tihonsyah%20FNAFER%20%26%20Luna's%20Ambient%20hub%20%E2%80%94%20Silent%20hill%202%20-%20The%20Day%20Of%20Night%20-%20Slowed%20Down%20no%20rain%20%282%20hours%29.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const starsContainer = document.getElementById('stars');
+        const starCount = 200;
+        const stars = [];
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            const size = Math.random() * 1.5 + 0.5;
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const duration = Math.random() * 5 + 3;
+            
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.setProperty('--duration', `${duration}s`);
+            
+            starsContainer.appendChild(star);
+            stars.push({
+                element: star,
+                x: x,
+                y: y
+            });
+        }
+        
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth * 100;
+            const mouseY = e.clientY / window.innerHeight * 100;
+            
+            stars.forEach(star => {
+                const dx = star.x - mouseX;
+                const dy = star.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const force = Math.min(2000 / (distance * distance), 30);
+                
+                const angle = Math.atan2(dy, dx);
+                const moveX = Math.cos(angle) * force;
+                const moveY = Math.sin(angle) * force;
+                
+                star.element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+        
+        document.addEventListener('mouseout', () => {
+            stars.forEach(star => {
+                star.element.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        const bgMusic = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const volumeControl = document.querySelector('.volume-control');
+
+        volumeControl.addEventListener('input', function() {
+            bgMusic.volume = this.value;
+        });
+
+        playBtn.addEventListener('click', function() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                this.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                bgMusic.pause();
+                this.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            bgMusic.volume = 0.3;
+            
+            const playPromise = bgMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
